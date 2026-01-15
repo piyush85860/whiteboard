@@ -1,13 +1,13 @@
 import { useContext } from "react"
 import { data } from "../../contextapi/Context"
 import { motion } from "motion/react";
-const Panel1 = () => {
+const Panel1 = ({containRef}) => {
 
     const {setBrushSize,setcolorSet,colorSet}=useContext(data);
     const colorActive={active:'w-[50px] h-[50px] rounded-full border-2 border-black cursor-pointer',notactive:'w-[50px] h-[50px] rounded-full cursor-pointer'};
     const colors=['red','blue','green','yellow','black','orange'];
   return (
-    <motion.div drag initial={{scaleX:0,opacity:0,x:-50}} animate={{scaleX:1,opacity:1,x:0}} transition={{duration:0.5, ease:"easeInOut"}} className='origin-left w-[15%] h-[15%] absolute top-[25%] left-[8%] bg-gray-700 rounded-3xl flex flex-col py-3 px-5'>
+    <motion.div drag dragConstraints={containRef} initial={{scaleX:0,opacity:0,x:-50}} animate={{scaleX:1,opacity:1,x:0}} transition={{duration:0.5, ease:"easeInOut"}} className='origin-left absolute top-[25%] left-[8%] bg-gray-700 rounded-3xl flex flex-col py-7 px-5 gap-3'>
        <div className='w-full h-full flex gap-2'>
             {colors.map((color,idx)=>{
             return(

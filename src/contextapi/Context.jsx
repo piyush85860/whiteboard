@@ -11,8 +11,19 @@ const Context = () => {
     const mouseyRef = useRef(0);
     const [brushSize, setBrushSize] = useState(2);
     const [colorSet, setcolorSet] = useState('white');
+    const [isErasing, setisErasing] = useState(false);
+    const startPosRef = useRef({ x: 0, y: 0 });
+const snapshotRef = useRef(null);
+const [shapeSet, setshapeSet] = useState(null);
+const undoStackRef = useRef([]);
+const redoStackRef = useRef([]);
+const [activePanel, setActivePanel] = useState(0);
+const [undoFn, setUndoFn] = useState(null);
+const [redoFn, setRedoFn] = useState(null);
+
+
     return (
-    <data.Provider value={{icons,barmap,activeTool,setactiveTool,panels,setpanels,iswritingRef,mousexRef,mouseyRef,brushSize,setBrushSize,colorSet,setcolorSet}}>
+    <data.Provider value={{icons,barmap,activeTool,setactiveTool,panels,setpanels,iswritingRef,mousexRef,mouseyRef,brushSize,setBrushSize,colorSet,setcolorSet,isErasing,setisErasing,startPosRef,snapshotRef,shapeSet,setshapeSet,undoStackRef,redoStackRef,activePanel,setActivePanel,undoFn,setUndoFn,redoFn,setRedoFn}}>
         <App/>
     </data.Provider>
   )
