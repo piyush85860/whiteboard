@@ -4,7 +4,7 @@ import './index.css'
 import Context from './contextapi/Context.jsx'
 
 createRoot(document.getElementById('root')).render(
-  <StrictMode>
+  
     <Context/>
-  </StrictMode>,
+ 
 )
