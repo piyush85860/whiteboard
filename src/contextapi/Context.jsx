@@ -15,15 +15,15 @@ const Context = () => {
     const startPosRef = useRef({ x: 0, y: 0 });
 const snapshotRef = useRef(null);
 const [shapeSet, setshapeSet] = useState(null);
-const undoStackRef = useRef([]);
-const redoStackRef = useRef([]);
+const UndoStackRef = useRef([]);
+const RedoStackRef = useRef([]);
 const [activePanel, setActivePanel] = useState(0);
-const [undoFn, setUndoFn] = useState(null);
-const [redoFn, setRedoFn] = useState(null);
+const [UndoFn, setUndoFn] = useState(false);
+const [RedoFn, setRedoFn] = useState(false);
 
 
     return (
-    <data.Provider value={{icons,barmap,activeTool,setactiveTool,panels,setpanels,iswritingRef,mousexRef,mouseyRef,brushSize,setBrushSize,colorSet,setcolorSet,isErasing,setisErasing,startPosRef,snapshotRef,shapeSet,setshapeSet,undoStackRef,redoStackRef,activePanel,setActivePanel,undoFn,setUndoFn,redoFn,setRedoFn}}>
+    <data.Provider value={{icons,barmap,activeTool,setactiveTool,panels,setpanels,iswritingRef,mousexRef,mouseyRef,brushSize,setBrushSize,colorSet,setcolorSet,isErasing,setisErasing,startPosRef,snapshotRef,shapeSet,setshapeSet,UndoStackRef,RedoStackRef,activePanel,setActivePanel,UndoFn,setUndoFn,RedoFn,setRedoFn}}>
         <App/>
     </data.Provider>
   )

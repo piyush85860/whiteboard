@@ -11,7 +11,9 @@ const Sidebar = ({containRef}) => {
     barmap,
     activePanel,
     setActivePanel,
-    setactiveTool
+    setactiveTool,
+    setUndoFn,
+    setRedoFn
   } = useContext(data);
 
   return (
@@ -20,18 +22,26 @@ const Sidebar = ({containRef}) => {
       {activePanel === 1 && <Panel2 containRef={containRef}/>}
       {activePanel === 2 && <Panel3 containRef={containRef}/>}
 
-      <div className="absolute left-10 top-50 px-3 py-4 bg-gray-700 rounded-md flex flex-col gap-2 text-xl">
+      <div className="absolute 
+    /* Mobile: Horizontal, centered at the bottom */
+    bottom-4 left-1/2 -translate-x-1/2 flex flex-row 
+    /* Desktop (md): Vertical, centered on the left */
+    md:top-1/2 md:left-6 md:bottom-auto md:-translate-y-1/2 md:translate-x-0 md:flex-col 
+    
+    gap-2 px-3 py-3 bg-gray-800/90 backdrop-blur-md border border-gray-600 rounded-2xl shadow-2xl z-50 transition-all duration-300">
         {icons.map((icon, idx) => (
           <motion.button
             key={idx}
             whileHover={{ scale: 1.2 }}
             onClick={() => {
               setActivePanel(idx);
-
-              // map panel → tool explicitly
+              
               if (idx === 0) setactiveTool(0); // pen
               if (idx === 1) setactiveTool(1); // eraser
               if (idx === 2) setactiveTool(2); // shape
+              if(idx==3){alert("This feature is yet to be implemented")}
+              if(idx===4){setUndoFn(true)}
+              if(idx===5){setRedoFn(true)}
             }}
             className={activePanel === idx ? barmap.active : barmap.notactive}
           >

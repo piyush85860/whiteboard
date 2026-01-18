@@ -9,13 +9,99 @@ const Canvas = () => {
     iswritingRef,
     brushSize,
     colorSet,
-    activeTool,   // 0 = pen, 1 = eraser, 2 = shape
-    shapeSet,     // "rect" | "circle" | "line"
+    activeTool,   
+    shapeSet,    
     startPosRef,
     snapshotRef,
+    UndoStackRef,
+    RedoStackRef,
+    UndoFn,
+    setUndoFn,
+    RedoFn,
+    setRedoFn
   } = useContext(data);
+useEffect(() => {
+  const canvas = canvasRef.current;
+  const ctx = canvas.getContext("2d", { willReadFrequently: true });
+  ctxRef.current = ctx;
 
-  /* ---------------- CANVAS INIT ---------------- */
+  const handleResize = () => {
+    
+    const tempImage = canvas.toDataURL();
+    const prevWidth = canvas.width;
+    const prevHeight = canvas.height;
+
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+
+    ctx.lineCap = "round";
+    ctx.lineJoin = "round";
+    ctx.strokeStyle = colorSet;
+    ctx.lineWidth = brushSize;
+
+    // 4. Draw the image back
+    const img = new Image();
+    img.src = tempImage;
+    img.onload = () => {
+      // This keeps the drawing in the top-left corner
+      ctx.drawImage(img, 0, 0);
+    };
+  };
+
+  // Set initial size
+  handleResize();
+
+  window.addEventListener("resize", handleResize);
+  return () => window.removeEventListener("resize", handleResize);
+}, []);
+useEffect(() => {
+  if (UndoStackRef.current.length === 0) {
+    UndoStackRef.current.push(canvasRef.current.toDataURL());
+  }
+}, []);
+  useEffect(() => {
+  if (!UndoFn || UndoStackRef.current.length <= 1) {
+    setUndoFn(false);
+    return;
+  }
+
+  const ctx = ctxRef.current;
+  const currentMove = UndoStackRef.current.pop();
+  RedoStackRef.current.push(currentMove);
+
+  const prevState = UndoStackRef.current[UndoStackRef.current.length - 1];
+
+  const img = new Image();
+  img.src = prevState;
+  img.onload = () => {
+    ctx.clearRect(0, 0, canvasRef.current.width, canvasRef.current.height);
+    ctx.drawImage(img, 0, 0);
+  };
+
+  setUndoFn(false);
+}, [UndoFn, setUndoFn]);
+
+useEffect(() => {
+  if (!RedoFn || RedoStackRef.current.length === 0) {
+    setRedoFn(false);
+    return;
+  }
+
+  const ctx = ctxRef.current;
+  const nextState = RedoStackRef.current.pop();
+  
+  UndoStackRef.current.push(nextState);
+
+  const img = new Image();
+  img.src = nextState;
+  img.onload = () => {
+    ctx.clearRect(0, 0, canvasRef.current.width, canvasRef.current.height);
+    ctx.drawImage(img, 0, 0);
+  };
+
+  setRedoFn(false);
+}, [RedoFn, setRedoFn]);
+
   useEffect(() => {
     const canvas = canvasRef.current;
     canvas.width = window.innerWidth;
@@ -28,23 +114,19 @@ const Canvas = () => {
     ctxRef.current = ctx;
   }, []);
 
-  /* ---------------- TOOL CONFIG ---------------- */
   useEffect(() => {
     if (!ctxRef.current) return;
 
     if (activeTool === 1) {
-      // ERASER
       ctxRef.current.globalCompositeOperation = "destination-out";
       ctxRef.current.lineWidth = brushSize * 2;
     } else {
-      // PEN + SHAPES
       ctxRef.current.globalCompositeOperation = "source-over";
       ctxRef.current.strokeStyle = colorSet;
       ctxRef.current.lineWidth = brushSize;
     }
   }, [activeTool, brushSize, colorSet]);
 
-  /* ---------------- DRAWING START ---------------- */
   const drawingstart = (e) => {
     const rect = canvasRef.current.getBoundingClientRect();
     const x = e.clientX - rect.left;
@@ -120,12 +202,17 @@ const Canvas = () => {
 
   /* ---------------- STOP DRAWING ---------------- */
   const stopDrawing = () => {
-    if (!iswritingRef.current) return;
-    iswritingRef.current = false;
-    ctxRef.current.closePath();
-  };
+  if (!iswritingRef.current) return;
+  iswritingRef.current = false;
+  ctxRef.current.closePath();
 
-  /* 🔥 GLOBAL MOUSEUP (prevents stuck drawing) */
+  // Save state to Undo Stack
+  UndoStackRef.current.push(canvasRef.current.toDataURL());
+  
+  // 🔥 CRITICAL: Clear Redo stack when a new action is performed
+  RedoStackRef.current = []; 
+};
+
   useEffect(() => {
     window.addEventListener("mouseup", stopDrawing);
     return () => window.removeEventListener("mouseup", stopDrawing);
