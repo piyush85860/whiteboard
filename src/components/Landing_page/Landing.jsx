@@ -42,7 +42,7 @@ useEffect(() => {
   }, [isAppLoaded, controls, controls2, controls3]);
 
   return (
-    <motion.div ref={containerRef} className="overflow-hidden w-full h-screen flex flex-col justify-center items-center gap-4 bg-[url('/bg2.png')] bg-cover bg-center">
+    <motion.div ref={containerRef} className="overflow-hidden w-full h-screen flex flex-col justify-center items-center gap-4 bg-[url('/bg2.png')] bg-cover bg-right sm:bg-center">
       {firsttime&&
       <div className='overflow-hidden w-full h-full absolute z-1 inset-0 pointer-events-none flex flex-col justify-center items-center gap-1.5'>
         <motion.div animate={controls} className='w-[50vw] h-[20vh] bg-blue-400 rounded-4xl'></motion.div>
@@ -72,7 +72,7 @@ useEffect(() => {
       
 
       {/* Button */}
-      <motion.button onClick={()=>{navigate('/draw')}} whileHover={{scale:1.2,backgroundColor:"red"}} ref={buttonRef} className="mt-2 px-5 py-2 bg-blue-900 text-white font-[Barriecito] rounded-3xl tracking-[0.3rem]">
+      <motion.button whileTap={{scale:1.2,backgroundColor:"red"}}  onClick={()=>{navigate('/draw')}} whileHover={{scale:1.2,backgroundColor:"red"}} ref={buttonRef} className="mt-2 px-5 py-2 bg-blue-900 text-white font-[Barriecito] rounded-3xl tracking-[0.3rem]">
         START CANVAS
       </motion.button>
 

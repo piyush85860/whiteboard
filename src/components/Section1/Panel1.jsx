@@ -19,7 +19,7 @@ const Panel1 = ({ containRef }) => {
       initial={{ scale: 0.8, opacity: 0, y: 20 }} 
       animate={{ scale: 1, opacity: 1, y: 0 }} 
       // Responsive positioning: Bottom on mobile, Side on desktop
-      className='fixed bottom-24 left-1/2 -translate-x-1/2 md:absolute md:translate-y-[-50vh] md:left-24 md:translate-x-0 
+      className='fixed bottom-28 left-1/2 -translate-x-1/2 md:absolute md:translate-y-[-50vh] md:left-24 md:translate-x-0 
                  bg-gray-800/95 backdrop-blur-sm p-4 rounded-2xl flex flex-col gap-4 shadow-2xl z-40 border border-gray-600'
     >
       {/* Drag Handle Indicator */}

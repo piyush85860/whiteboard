@@ -11,7 +11,7 @@ const Panel2 = ({ containRef }) => {
       dragConstraints={containRef}
       initial={{ scale: 0.8, opacity: 0, y: 20 }}
       animate={{ scale: 1, opacity: 1, y: 0 }}
-      className="fixed bottom-24 left-1/2 -translate-x-1/2 md:absolute md:translate-y-[-40vh] md:left-24 md:translate-x-0 
+      className="fixed bottom-28 left-1/2 -translate-x-1/2 md:absolute md:translate-y-[-40vh] md:left-24 md:translate-x-0 
                  w-[250px] md:w-[200px] bg-gray-800/95 backdrop-blur-md p-5 rounded-2xl shadow-2xl z-40 border border-gray-600"
     >
       <div className="w-8 h-1 bg-gray-600 rounded-full mx-auto mb-3 md:hidden" />

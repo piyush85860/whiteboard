@@ -24,7 +24,7 @@ const Sidebar = ({containRef}) => {
 
       <div className="absolute 
     /* Mobile: Horizontal, centered at the bottom */
-    bottom-4 left-1/2 -translate-x-1/2 flex flex-row 
+    bottom-8 left-1/2 -translate-x-1/2 flex flex-row 
     /* Desktop (md): Vertical, centered on the left */
     md:top-1/2 md:left-6 md:bottom-auto md:-translate-y-1/2 md:translate-x-0 md:flex-col 
     
